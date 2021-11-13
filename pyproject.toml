@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "vk-api-py-models"
+version = "0.1.0"
+description = "Full cover of API vk.com for Python. Not library dependent. Code generator script is opened."
+authors = ["Yan Kurbatov <deknowny@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^1.8.2"
+
+
+[tool.poetry.dev-dependencies]
+black = "^21.10b0"
+isort = "^5.10.1"
+mypy = "^0.910"
+Jinja2 = "^3.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
