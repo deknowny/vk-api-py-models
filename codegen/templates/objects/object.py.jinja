@@ -1,0 +1,17 @@
+{%- import "inheritance.py.jinja" as inheritance_temp with context %}
+{%- import "body.py.jinja" as body_temp with context -%}
+
+{%- macro gen_object(class_name, entity) -%}
+
+@dataclasses.dataclass
+class {{ class_name }}{{ "(" }}
+    ObjectBase,
+    {{- inheritance_temp.gen_parents(entity) -}}
+    
+):
+    {{- body_temp.gen_object_body(entity) -}}
+    
+
+{%- endmacro -%}
+        
+

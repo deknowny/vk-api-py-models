@@ -1,0 +1,10 @@
+{%- macro gen_parents(entity) -%}
+    {%- if "allOf" in entity -%}
+        {%- for seems_base in entity["allOf"] -%}
+            {%- if isinstance(seems_base, reference_type) -%}
+                {{- "\n    " -}}
+                {{- seems_base.model_name -}},
+            {%- endif -%}
+        {%- endfor -%}
+    {%- endif -%}
+{%- endmacro -%}

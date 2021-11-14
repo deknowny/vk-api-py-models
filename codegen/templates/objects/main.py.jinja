@@ -1,0 +1,17 @@
+{% import "enum.py.jinja" as enum_temp with context -%}
+{% import "object.py.jinja" as object_temp with context -%}
+
+import dataclasses
+import enum
+import typing
+
+from vkmodels.bases import ObjectBase
+
+{% for class_name, entity in objects_data.items() -%}
+    {%- if entity["type"] == "object" -%}
+        {{ object_temp.gen_object(class_name, entity) }}
+    {%- elif "enum" in entity -%}
+        {{ enum_temp.gen_enum(class_name, entity) }}
+    {%- endif -%}
+    {{- "\n\n\n" -}}
+{%- endfor -%}

@@ -3,8 +3,6 @@ import dataclasses
 import pathlib
 import typing
 
-import jsonref
-
 from codegen.loader import load_json
 
 GeneratorType = typing.TypeVar("GeneratorType")

@@ -1,3 +1,8 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
 [tool.poetry]
 name = "vk-api-py-models"
 version = "0.1.0"
@@ -7,7 +12,6 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pydantic = "^1.8.2"
 
 
 [tool.poetry.dev-dependencies]
@@ -16,6 +20,10 @@ isort = "^5.10.1"
 mypy = "^0.910"
 Jinja2 = "^3.0.3"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.black]
+line-length = 78
+
+[tool.isort]
+profile = "wemake"
+src_paths = ["vkquick", "tests"]
+line_length = 78

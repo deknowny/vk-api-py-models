@@ -1,0 +1,6 @@
+{%- macro to_valid_name(name) -%}
+    {%- if name[0].isdigit() or name in ["from", "class", "global", "in"] -%}
+        field_
+    {%- endif -%}
+    {{- name.replace(" ", "_") -}}
+{%- endmacro -%}

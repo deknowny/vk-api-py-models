@@ -1,0 +1,23 @@
+{%- import "field.py.jinja" as field_temp with context -%}
+
+
+{%- macro gen_object_body(entity) -%}
+    {%- if "properties" in entity -%}
+        {%- set field_items = entity["properties"] -%}
+    {%- else -%}
+        {%- set field_items = {} -%}
+    {%- endif -%}
+    {%- for seems_fields in entity["allOf"] %}
+        {%- if not isinstance(seems_fields, reference_type) -%}
+            {%- set _ = field_items.update(seems_fields["properties"]) -%}
+        {%- endif -%}
+    {%- endfor -%}
+
+    {%- for field_name, field_data in field_items.items() -%}
+        {{- field_temp.gen_field(field_name, field_data, "required" in entity and field_name in entity["required"]) -}}
+    {%- endfor -%}
+    {%- if not field_items -%}
+        {# {{- "\n    " -}} #}
+        {{- "pass" -}}
+    {%- endif -%}
+{%- endmacro -%}

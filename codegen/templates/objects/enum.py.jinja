@@ -1,0 +1,32 @@
+{%- import "resolve_type.py.jinja" as resolve_type_temp with context -%}
+{%- import "to_valid_name.py.jinja" as to_valid_name_temp with context -%}
+
+{%- macro gen_enum_field(typename, value, name=none) -%}
+    {{- "\n    " -}}
+    {{- to_valid_name_temp.to_valid_name(name or value).upper() -}}
+    {{- " = " -}}
+    {%- if typename == "string" -%}
+        {{- '"' -}}{{- value -}}{{- '"' -}}
+    {% else %}
+        {{- value -}}
+    {% endif %}
+
+{%- endmacro -%}
+
+
+{%- macro gen_enum(class_name, entity) -%}
+class {{ class_name }}{{ "(" }}
+    {{ resolve_type_temp.resolve_type(entity) }},
+    enum.Enum
+):
+    {%- if "enumNames" not in entity -%}
+        {%- for enum_value in entity["enum"] -%}
+            {{- gen_enum_field(entity["type"], enum_value) -}}
+        {%- endfor -%}
+    {%- else -%}
+        {%- for enum_value, enum_name in zip(entity["enum"], entity["enumNames"]) -%}
+            {{- gen_enum_field(entity["type"], enum_value, enum_name) -}}
+        {%- endfor -%}
+    {%- endif -%}
+
+{%- endmacro -%}}

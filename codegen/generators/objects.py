@@ -9,7 +9,8 @@ import typing
 import jinja2
 
 from codegen.generators.base import GeneratorBase
-from codegen.snake2camel import snake2camel
+from codegen.loader import Reference
+from codegen.snake2pascal import snake2pascal
 
 ObjectsType: typing.TypeAlias = dict[str, dict]
 
@@ -22,12 +23,12 @@ class ObjectsGenerator(GeneratorBase):
         objects_path, objects = self._fetch_objects()
         template_env = jinja2.Environment(
             loader=jinja2.FileSystemLoader(
-                pathlib.Path("codegen") / "templates"
+                pathlib.Path("codegen") / "templates" / "objects"
             )
         )
         gen_threads = []
         for key, value in objects.items():
-            template = template_env.get_template("objects.py.jinja")
+            template = template_env.get_template("main.py.jinja")
             thread = threading.Thread(
                 target=lambda: self._gen_section(key, value, objects_path, template)
             )
@@ -47,25 +48,29 @@ class ObjectsGenerator(GeneratorBase):
         filename = objects_path / f"{key}.py"
         filename.touch()
         template.stream(
-            class_name="Test"
+            objects_data=value,
+            reference_type=Reference,
+            snake2pascal=snake2pascal,
+            isinstance=isinstance,
+            print=print,
+            zip=zip
         ).dump(filename.open(mode="w"))
 
     def _fetch_objects(self) -> tuple[pathlib.Path, ObjectsType]:
-        objects_path, objects = self._init_objects()
-        for section, value in objects.items():
-            file_path = objects_path / f"{section}.py"
-            value["path"] = file_path
-
-        return objects_path, objects
-
-    def _init_objects(self) -> tuple[pathlib.Path, ObjectsType]:
         objects_path = self.models_path / "objects"
         objects_path.mkdir()
         ordinaries = collections.defaultdict(dict)
         for key, value in self.schema["definitions"].items():
             key_prefix, ordinary_name = key.split("_", 1)
-            ordinary_name = snake2camel(ordinary_name)
+            ordinary_name = snake2pascal(ordinary_name)
             ordinaries[key_prefix][ordinary_name] = value
+            if not isinstance(value, Reference) and "properties" in value:
+                value["properties"] = dict(
+                    sorted(
+                        value["properties"].items(),
+                        key=lambda pair: (pair[0] not in value.get("required", []), pair[0])
+                    )
+                )
 
         return objects_path, ordinaries
 

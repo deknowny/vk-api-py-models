@@ -1,0 +1,15 @@
+{%- macro resolve_type(data) -%}
+    {%- if data["type"] == "integer" -%}
+        int
+    {%- elif data["type"] == "string" -%}
+        str
+    {%- elif data["type"] == "number" -%}
+        float
+    {%- elif data["type"] == "boolean" -%}
+        bool
+    {%- elif data["type"] == "array" -%}
+        {{ "typing.List[" + resolve_type(data["items"]) + "]" }}
+    {%- else -%}
+        {{ data.model_name }}
+    {%- endif -%}
+{%- endmacro -%}

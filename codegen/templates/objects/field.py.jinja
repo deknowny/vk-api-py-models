@@ -1,0 +1,34 @@
+{%- import "resolve_type.py.jinja" as resolve_type_temp with context -%}
+{%- import "to_valid_name.py.jinja" as to_valid_name_temp with context -%}
+
+
+{%- macro gen_field(field_name, field_data, required) -%}
+    {{- "\n    " -}}
+
+    {# Define name #}
+    {{- to_valid_name_temp.to_valid_name(field_name) -}}:
+    {{- " " -}}
+
+    {# Define type #}
+    {%- if not required -%}
+        {{ "typing.Optional[" }}
+    {%- endif -%}
+        {{- resolve_type_temp.resolve_type(field_data) -}}
+    {%- if not required -%}
+        {{ "]" }}
+    {%- endif -%}
+
+    {# Define default #}
+    {%- if not required -%}
+        {{- " = " -}}
+        {%- if "default" in field_data -%}
+            {%- if "string" == field_data["type"] -%}
+                {{- '"' + field_data["default"] + '"' -}}
+            {%- else -%}
+                {{- field_data["default"] -}}
+            {%- endif -%}
+        {%- else -%}
+            None
+        {%- endif -%}
+    {%- endif -%}
+{%- endmacro -%}
