@@ -7,7 +7,7 @@ from codegen.generators.objects import ObjectsGenerator
 
 
 def entrypoint():
-    models_path = pathlib.Path("vkapipymodels")
+    models_path = pathlib.Path("vkmodels")
     codegen_path = pathlib.Path("codegen")
 
     shutil.rmtree(models_path, ignore_errors=True)

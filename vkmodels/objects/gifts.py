@@ -4,5 +4,5 @@ from vkmodels.bases import ObjectBase
 
 
 @dataclasses.dataclass
-class {{ class_name }}(ObjectBase):
+class Test(ObjectBase):
     pass
