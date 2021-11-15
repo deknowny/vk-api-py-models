@@ -8,8 +8,10 @@
         {%- set field_items = {} -%}
     {%- endif -%}
     {%- for seems_fields in entity["allOf"] %}
-        {%- if not isinstance(seems_fields, reference_type) -%}
-            {%- set _ = field_items.update(seems_fields["properties"]) -%}
+        {%- if seems_fields.reference is none and "properties" in seems_fields  -%}
+            {%- for key, value in seems_fields["properties"].items() -%}
+                {%- set _ = field_items.update({key: value}) -%}
+            {%- endfor -%}
         {%- endif -%}
     {%- endfor -%}
 
@@ -17,7 +19,7 @@
         {{- field_temp.gen_field(field_name, field_data, "required" in entity and field_name in entity["required"]) -}}
     {%- endfor -%}
     {%- if not field_items -%}
-        {# {{- "\n    " -}} #}
+        {{- "\n    " -}}
         {{- "pass" -}}
     {%- endif -%}
 {%- endmacro -%}

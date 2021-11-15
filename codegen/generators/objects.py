@@ -9,8 +9,8 @@ import typing
 import jinja2
 
 from codegen.generators.base import GeneratorBase
-from codegen.loader import Reference
 from codegen.snake2pascal import snake2pascal
+from codegen.loader import JSONObjectProxy
 
 ObjectsType: typing.TypeAlias = dict[str, dict]
 
@@ -43,17 +43,19 @@ class ObjectsGenerator(GeneratorBase):
         key: str,
         value: dict,
         objects_path: pathlib.Path,
-        template: jinja2.Template
+        template: jinja2.Template,
     ):
         filename = objects_path / f"{key}.py"
         filename.touch()
         template.stream(
             objects_data=value,
-            reference_type=Reference,
             snake2pascal=snake2pascal,
             isinstance=isinstance,
             print=print,
-            zip=zip
+            zip=zip,
+            list=list,
+            json_object_proxy=JSONObjectProxy,
+            base_path=self.models_path
         ).dump(filename.open(mode="w"))
 
     def _fetch_objects(self) -> tuple[pathlib.Path, ObjectsType]:
@@ -64,7 +66,7 @@ class ObjectsGenerator(GeneratorBase):
             key_prefix, ordinary_name = key.split("_", 1)
             ordinary_name = snake2pascal(ordinary_name)
             ordinaries[key_prefix][ordinary_name] = value
-            if not isinstance(value, Reference) and "properties" in value:
+            if value.reference is None and "properties" in value:
                 value["properties"] = dict(
                     sorted(
                         value["properties"].items(),

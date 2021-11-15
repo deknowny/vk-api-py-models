@@ -3,7 +3,7 @@ import dataclasses
 import pathlib
 import typing
 
-from codegen.loader import load_json
+from codegen.loader import load_json_schema
 
 GeneratorType = typing.TypeVar("GeneratorType")
 
@@ -22,7 +22,7 @@ class GeneratorBase(abc.ABC):
     @classmethod
     def fetch(cls: typing.Type[GeneratorType], models_path: pathlib.Path) -> GeneratorType:
         path = pathlib.Path("vk-api-schema") / cls.schema_filename
-        schema = load_json(path)
+        schema = load_json_schema(path)
         return cls(schema=schema, models_path=models_path)
 
 

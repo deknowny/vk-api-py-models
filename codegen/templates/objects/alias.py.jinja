@@ -1,0 +1,8 @@
+{%- import "resolve_type.py.jinja" as resolve_type_temp with context -%}
+
+
+{%- macro gen_alias(class_name, entity) -%}
+
+{{- class_name }}: typing.TypeAlias = {{ resolve_type_temp.resolve_type(entity) -}}
+
+{%- endmacro -%}
