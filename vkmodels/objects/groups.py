@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -326,7 +326,6 @@ class GroupCategoryFull(
     name: str
     page_count: int
     page_previews: typing.List[Group]
-
     subcategories: typing.Optional[typing.List[GroupCategory]] = None
 
 

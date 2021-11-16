@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -52,7 +52,6 @@ class Lead(
     ObjectBase,
 ):
     answers: typing.List[Answer]
-
     date: int
     lead_id: int
     user_id: int

@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 class DefaultOrder(int, enum.Enum):
@@ -47,7 +47,6 @@ class TopicPoll(
 ):
     answer_id: int
     answers: typing.List[Answer]
-
     created: int
     owner_id: int
     poll_id: int

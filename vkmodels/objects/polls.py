@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -42,7 +42,6 @@ class Poll(
     ObjectBase,
 ):
     answers: typing.List[Answer]
-
     can_edit: bool
     can_report: bool
     can_share: bool

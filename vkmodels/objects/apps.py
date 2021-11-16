@@ -2,34 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
-
-
-@dataclasses.dataclass
-class App(
-    ObjectBase,
-    AppMin,
-):
-    author_url: typing.Optional[str] = None
-    banner_1120: typing.Optional[str] = None
-    banner_560: typing.Optional[str] = None
-    icon_16: typing.Optional[str] = None
-    is_new: typing.Optional[BoolInt] = None
-    push_enabled: typing.Optional[BoolInt] = None
-    screen_orientation: typing.Optional[int] = None
-    friends: typing.Optional[typing.List[int]] = None
-    catalog_position: typing.Optional[int] = None
-    description: typing.Optional[str] = None
-    genre: typing.Optional[str] = None
-    genre_id: typing.Optional[int] = None
-    international: typing.Optional[bool] = None
-    is_in_catalog: typing.Optional[int] = None
-    leaderboard_type: typing.Optional[AppLeaderboardType] = None
-    members_count: typing.Optional[int] = None
-    platform_id: typing.Optional[str] = None
-    published_date: typing.Optional[int] = None
-    screen_name: typing.Optional[str] = None
-    section: typing.Optional[str] = None
+from vkmodels.bases.object import ObjectBase
 
 
 class AppLeaderboardType(int, enum.Enum):
@@ -73,7 +46,6 @@ class CatalogList(
 ):
     count: int
     items: typing.List[App]
-
     profiles: typing.Optional[typing.List[UserMin]] = None
 
 
@@ -93,3 +65,30 @@ class Scope(
 ):
     name: str
     title: typing.Optional[str] = None
+
+
+@dataclasses.dataclass
+class App(
+    ObjectBase,
+    AppMin,
+):
+    author_url: typing.Optional[str] = None
+    banner_1120: typing.Optional[str] = None
+    banner_560: typing.Optional[str] = None
+    icon_16: typing.Optional[str] = None
+    is_new: typing.Optional[BoolInt] = None
+    push_enabled: typing.Optional[BoolInt] = None
+    screen_orientation: typing.Optional[int] = None
+    friends: typing.Optional[typing.List[int]] = None
+    catalog_position: typing.Optional[int] = None
+    description: typing.Optional[str] = None
+    genre: typing.Optional[str] = None
+    genre_id: typing.Optional[int] = None
+    international: typing.Optional[bool] = None
+    is_in_catalog: typing.Optional[int] = None
+    leaderboard_type: typing.Optional[AppLeaderboardType] = None
+    members_count: typing.Optional[int] = None
+    platform_id: typing.Optional[str] = None
+    published_date: typing.Optional[int] = None
+    screen_name: typing.Optional[str] = None
+    section: typing.Optional[str] = None

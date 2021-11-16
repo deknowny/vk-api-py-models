@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -223,12 +223,6 @@ class School(
     year_to: typing.Optional[int] = None
 
 
-SubscriptionsItem: typing.TypeAlias = typing.Union[
-    UserXtrType,
-    GroupFull,
-]
-
-
 @dataclasses.dataclass
 class University(
     ObjectBase,
@@ -245,25 +239,6 @@ class University(
     id: typing.Optional[int] = None
     name: typing.Optional[str] = None
     university_group_id: typing.Optional[int] = None
-
-
-@dataclasses.dataclass
-class User(
-    ObjectBase,
-    UserMin,
-):
-    sex: typing.Optional[Sex] = None
-    screen_name: typing.Optional[str] = None
-    photo_50: typing.Optional[str] = None
-    photo_100: typing.Optional[str] = None
-    online_info: typing.Optional[OnlineInfo] = None
-    online: typing.Optional[BoolInt] = None
-    online_mobile: typing.Optional[BoolInt] = None
-    online_app: typing.Optional[int] = None
-    verified: typing.Optional[BoolInt] = None
-    trending: typing.Optional[BoolInt] = None
-    friend_status: typing.Optional[FriendStatusStatus] = None
-    mutual: typing.Optional[RequestsMutual] = None
 
 
 @dataclasses.dataclass
@@ -306,6 +281,90 @@ class UserCounters(
     user_videos: typing.Optional[int] = None
     videos: typing.Optional[int] = None
     wishes: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class UserMin(
+    ObjectBase,
+):
+    first_name: str
+    id: int
+    last_name: str
+    can_access_closed: typing.Optional[bool] = None
+    deactivated: typing.Optional[str] = None
+    hidden: typing.Optional[int] = None
+    is_closed: typing.Optional[bool] = None
+
+
+class UserRelation(int, enum.Enum):
+    NOT_SPECIFIED = 0
+    SINGLE = 1
+    IN_A_RELATIONSHIP = 2
+    ENGAGED = 3
+    MARRIED = 4
+    COMPLICATED = 5
+    ACTIVELY_SEARCHING = 6
+    IN_LOVE = 7
+    IN_A_CIVIL_UNION = 8
+
+
+@dataclasses.dataclass
+class UserSettingsXtr(
+    ObjectBase,
+):
+    home_town: str
+    status: str
+    bdate: typing.Optional[str] = None
+    bdate_visibility: typing.Optional[int] = None
+    city: typing.Optional[City] = None
+    connections: typing.Optional[UserConnections] = None
+    country: typing.Optional[Country] = None
+    first_name: typing.Optional[str] = None
+    interests: typing.Optional[UserSettingsInterests] = None
+    languages: typing.Optional[typing.List[str]] = None
+    last_name: typing.Optional[str] = None
+    maiden_name: typing.Optional[str] = None
+    name_request: typing.Optional[NameRequest] = None
+    personal: typing.Optional[Personal] = None
+    phone: typing.Optional[str] = None
+    relation: typing.Optional[UserRelation] = None
+    relation_partner: typing.Optional[UserMin] = None
+    relation_pending: typing.Optional[BoolInt] = None
+    relation_requests: typing.Optional[typing.List[UserMin]] = None
+    screen_name: typing.Optional[str] = None
+    sex: typing.Optional[Sex] = None
+    status_audio: typing.Optional[Audio] = None
+
+
+class UserType(str, enum.Enum):
+    PROFILE = "profile"
+
+
+@dataclasses.dataclass
+class UsersArray(
+    ObjectBase,
+):
+    count: int
+    items: typing.List[int]
+
+
+@dataclasses.dataclass
+class User(
+    ObjectBase,
+    UserMin,
+):
+    sex: typing.Optional[Sex] = None
+    screen_name: typing.Optional[str] = None
+    photo_50: typing.Optional[str] = None
+    photo_100: typing.Optional[str] = None
+    online_info: typing.Optional[OnlineInfo] = None
+    online: typing.Optional[BoolInt] = None
+    online_mobile: typing.Optional[BoolInt] = None
+    online_app: typing.Optional[int] = None
+    verified: typing.Optional[BoolInt] = None
+    trending: typing.Optional[BoolInt] = None
+    friend_status: typing.Optional[FriendStatusStatus] = None
+    mutual: typing.Optional[RequestsMutual] = None
 
 
 @dataclasses.dataclass
@@ -438,63 +497,6 @@ class UserFull(
 
 
 @dataclasses.dataclass
-class UserMin(
-    ObjectBase,
-):
-    first_name: str
-    id: int
-    last_name: str
-    can_access_closed: typing.Optional[bool] = None
-    deactivated: typing.Optional[str] = None
-    hidden: typing.Optional[int] = None
-    is_closed: typing.Optional[bool] = None
-
-
-class UserRelation(int, enum.Enum):
-    NOT_SPECIFIED = 0
-    SINGLE = 1
-    IN_A_RELATIONSHIP = 2
-    ENGAGED = 3
-    MARRIED = 4
-    COMPLICATED = 5
-    ACTIVELY_SEARCHING = 6
-    IN_LOVE = 7
-    IN_A_CIVIL_UNION = 8
-
-
-@dataclasses.dataclass
-class UserSettingsXtr(
-    ObjectBase,
-):
-    home_town: str
-    status: str
-    bdate: typing.Optional[str] = None
-    bdate_visibility: typing.Optional[int] = None
-    city: typing.Optional[City] = None
-    connections: typing.Optional[UserConnections] = None
-    country: typing.Optional[Country] = None
-    first_name: typing.Optional[str] = None
-    interests: typing.Optional[UserSettingsInterests] = None
-    languages: typing.Optional[typing.List[str]] = None
-    last_name: typing.Optional[str] = None
-    maiden_name: typing.Optional[str] = None
-    name_request: typing.Optional[NameRequest] = None
-    personal: typing.Optional[Personal] = None
-    phone: typing.Optional[str] = None
-    relation: typing.Optional[UserRelation] = None
-    relation_partner: typing.Optional[UserMin] = None
-    relation_pending: typing.Optional[BoolInt] = None
-    relation_requests: typing.Optional[typing.List[UserMin]] = None
-    screen_name: typing.Optional[str] = None
-    sex: typing.Optional[Sex] = None
-    status_audio: typing.Optional[Audio] = None
-
-
-class UserType(str, enum.Enum):
-    PROFILE = "profile"
-
-
-@dataclasses.dataclass
 class UserXtrType(
     ObjectBase,
     User,
@@ -502,9 +504,7 @@ class UserXtrType(
     type: typing.Optional[UserType] = None
 
 
-@dataclasses.dataclass
-class UsersArray(
-    ObjectBase,
-):
-    count: int
-    items: typing.List[int]
+SubscriptionsItem: typing.TypeAlias = typing.Union[
+    UserXtrType,
+    GroupFull,
+]

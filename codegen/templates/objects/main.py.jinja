@@ -1,12 +1,13 @@
-{% import "enum.py.jinja" as enum_temp with context -%}
-{% import "object.py.jinja" as object_temp with context -%}
-{% import "alias.py.jinja" as alias_temp with context -%}
+{%- import "enum.py.jinja" as enum_temp with context -%}
+{%- import "object.py.jinja" as object_temp with context -%}
+{%- import "alias.py.jinja" as alias_temp with context -%}
+
 
 import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 {% for class_name, entity in objects_data.items() -%}
     {%- if entity["type"] == "object" -%}

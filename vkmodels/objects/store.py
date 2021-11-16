@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -31,8 +31,7 @@ class StickersKeyword(
     ObjectBase,
 ):
     words: typing.List[str]
-
-    promoted_stickers: typing.Optional[StickersKeywordStickers] = None
+    promoted_stickers: typing.Optional[StickersList] = None
     stickers: typing.Optional[typing.List[StickersKeywordSticker]] = None
     user_stickers: typing.Optional[StickersList] = None
 

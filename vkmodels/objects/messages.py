@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -15,7 +15,6 @@ class AudioMessage(
     link_ogg: str
     owner_id: int
     waveform: typing.List[int]
-
     access_key: typing.Optional[str] = None
     transcript_error: typing.Optional[int] = None
 
@@ -28,7 +27,6 @@ class Chat(
     id: int
     type: str
     users: typing.List[int]
-
     is_default_photo: typing.Optional[bool] = None
     kicked: typing.Optional[BoolInt] = None
     left: typing.Optional[BoolInt] = None
@@ -47,7 +45,6 @@ class ChatFull(
     id: int
     type: str
     users: typing.List[UserXtrInvitedBy]
-
     kicked: typing.Optional[BoolInt] = None
     left: typing.Optional[BoolInt] = None
     photo_100: typing.Optional[str] = None
@@ -95,7 +92,6 @@ class ChatSettings(
 ):
     acl: ChatSettingsAcl
     active_ids: typing.List[int]
-
     owner_id: int
     state: ChatSettingsState
     title: str
@@ -290,7 +286,6 @@ class GetConversationMembers(
 ):
     count: int
     items: typing.List[ConversationMember]
-
     chat_restrictions: typing.Optional[ChatRestrictions] = None
     groups: typing.Optional[typing.List[GroupFull]] = None
     profiles: typing.Optional[typing.List[UserFull]] = None
@@ -353,7 +348,6 @@ class Keyboard(
     ObjectBase,
 ):
     buttons: typing.List[typing.List[KeyboardButton]]
-
     one_time: bool
     author_id: typing.Optional[int] = None
     inline: typing.Optional[bool] = None

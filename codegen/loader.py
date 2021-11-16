@@ -2,13 +2,12 @@
 from __future__ import annotations
 
 import dataclasses
-import pathlib
 import json
+import pathlib
 import typing
 import urllib.parse
 
 from codegen.snake2pascal import snake2pascal
-
 
 _cached_stores = {}
 
@@ -31,20 +30,14 @@ class ProxyBase:
             ref = None
             if "$ref" in new_value:
                 ref = JSONObjectReference.from_ref_obj(
-                    base_path=self.base_path,
-                    obj=new_value
+                    base_path=self.base_path, obj=new_value
                 )
                 new_value = ref.source
             return JSONObjectProxy(
-                view=new_value,
-                base_path=self.base_path,
-                reference=ref
+                view=new_value, base_path=self.base_path, reference=ref
             )
         elif isinstance(new_value, list):
-            return JSONArrayProxy(
-                view=new_value,
-                base_path=self.base_path
-            )
+            return JSONArrayProxy(view=new_value, base_path=self.base_path)
 
         return new_value
 
@@ -55,7 +48,6 @@ class ProxyBase:
         return iter(self.view)
 
 
-
 @dataclasses.dataclass
 class JSONObjectReference:
     filename: str
@@ -64,14 +56,15 @@ class JSONObjectReference:
     source: typing.Any
 
     @classmethod
-    def from_ref_obj(cls, obj: dict, base_path: pathlib.Path) -> JSONObjectReference:
+    def from_ref_obj(
+        cls, obj: dict, base_path: pathlib.Path
+    ) -> JSONObjectReference:
+        obj = obj.copy()
         uri = obj.pop("$ref")
         parsed_uri = urllib.parse.urlparse(uri)
         another_schema = _cached_stores.get(
             parsed_uri.path,
-            json.load(
-                (base_path.parent / parsed_uri.path).open()
-            )
+            json.load((base_path.parent / parsed_uri.path).open()),
         )
         _cached_stores[parsed_uri.path] = another_schema
         another_schema_keys = parsed_uri.fragment.removeprefix("/").split("/")
@@ -79,17 +72,17 @@ class JSONObjectReference:
         for key in another_schema_keys:
             source = source[key]
 
+        source = source.copy()
         source.update(obj)
         if "$ref" in source:
             return cls.from_ref_obj(source, base_path)
 
         return cls(
             source=source,
-            keys_path=another_schema_keys,
+            keys_path=tuple(another_schema_keys),
             filename=parsed_uri.path,
-            model_name=snake2pascal(another_schema_keys[-1].split("_", 1)[1])
+            model_name=snake2pascal(another_schema_keys[-1].split("_", 1)[1]),
         )
-
 
 
 @dataclasses.dataclass
@@ -101,24 +94,16 @@ class JSONObjectProxy(ProxyBase):
         ref = None
         if "$ref" in obj:
             ref = JSONObjectReference.from_ref_obj(
-                base_path=base_path,
-                obj=obj
+                base_path=base_path, obj=obj
             )
             obj = ref.source
-        return cls(
-            view=obj,
-            base_path=base_path,
-            reference=ref
-        )
+        return cls(view=obj, base_path=base_path, reference=ref)
 
     def items(self):
-        yield from [
-            (k, self[k]) for k in self.view
-        ]
+        yield from [(k, self[k]) for k in self.view]
 
     def get(self, item, replacer=None):
         return self.view.get(item, replacer)
-
 
 
 @dataclasses.dataclass
@@ -126,13 +111,9 @@ class JSONArrayProxy(ProxyBase):
     pass
 
 
-
 def load_json_schema(path: pathlib.Path) -> JSONObjectProxy:
     json_schema = json.load(path.open())
     if isinstance(json_schema, dict):
-        return JSONObjectProxy(
-            view=json_schema,
-            base_path=path
-        )
+        return JSONObjectProxy(view=json_schema, base_path=path)
     else:
         raise ValueError("Can't parse json schema only with reference")

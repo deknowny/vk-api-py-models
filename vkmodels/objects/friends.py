@@ -2,15 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
-
-
-@dataclasses.dataclass
-class FriendExtendedStatus(
-    ObjectBase,
-    FriendStatus,
-):
-    is_request_unread: typing.Optional[bool] = None
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -71,6 +63,14 @@ class RequestsXtrMessage(
     message: typing.Optional[str] = None
     mutual: typing.Optional[RequestsMutual] = None
     user_id: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class FriendExtendedStatus(
+    ObjectBase,
+    FriendStatus,
+):
+    is_request_unread: typing.Optional[bool] = None
 
 
 @dataclasses.dataclass

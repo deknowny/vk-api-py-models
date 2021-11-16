@@ -1,6 +1,4 @@
 {%- macro resolve_type(data) -%}
-
-
     {%- if data.reference is not none -%}
         {{- data.reference.model_name -}}
     {%- elif data["type"] == "integer" -%}
@@ -21,9 +19,6 @@
         dict
     {%- elif data["type"] == "array" -%}
         {{ "typing.List[" + resolve_type(data["items"]) + "]" }}
-    {# Fuck this #}
-    {%- elif data.reference is not none -%}
-        {{- data.reference.model_name -}}
     {%- elif data.view["type"] == ['integer', 'string'] -%}
         {{- "typing.Union[int, str]" -}}
     {%- else -%}

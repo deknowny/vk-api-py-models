@@ -1,5 +1,6 @@
 import abc
 import dataclasses
+import json
 import pathlib
 import typing
 
@@ -13,6 +14,7 @@ class GeneratorBase(abc.ABC):
     schema_filename: typing.ClassVar[str]
 
     schema: dict
+    schema_path: pathlib.Path
     models_path: pathlib.Path
 
     @abc.abstractmethod
@@ -20,9 +22,13 @@ class GeneratorBase(abc.ABC):
         pass
 
     @classmethod
-    def fetch(cls: typing.Type[GeneratorType], models_path: pathlib.Path) -> GeneratorType:
-        path = pathlib.Path("vk-api-schema") / cls.schema_filename
-        schema = load_json_schema(path)
-        return cls(schema=schema, models_path=models_path)
-
-
+    def fetch(
+        cls: typing.Type[GeneratorType],
+        schema_path: pathlib.Path,
+        models_path: pathlib.Path,
+    ) -> GeneratorType:
+        schema_path /= cls.schema_filename
+        schema = json.load(schema_path.open())
+        return cls(
+            schema=schema, schema_path=schema_path, models_path=models_path
+        )

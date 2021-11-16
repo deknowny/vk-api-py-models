@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -38,18 +38,6 @@ class NotificationItem(
     parent: typing.Optional[Notification] = None
     reply: typing.Optional[Reply] = None
     type: typing.Optional[str] = None
-
-
-@dataclasses.dataclass
-class NotificationParent(
-    ObjectBase,
-    WallpostToId,
-    Photo,
-    Topic,
-    Video,
-    NotificationsComment,
-):
-    pass
 
 
 @dataclasses.dataclass
@@ -90,3 +78,15 @@ class SendMessageItem(
     error: typing.Optional[SendMessageError] = None
     status: typing.Optional[bool] = None
     user_id: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class NotificationParent(
+    ObjectBase,
+    WallpostToId,
+    Photo,
+    Topic,
+    Video,
+    NotificationsComment,
+):
+    pass

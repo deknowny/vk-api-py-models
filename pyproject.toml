@@ -19,6 +19,7 @@ black = "^21.10b0"
 isort = "^5.10.1"
 mypy = "^0.910"
 Jinja2 = "^3.0.3"
+loguru = "^0.5.3"
 
 [tool.black]
 line-length = 78

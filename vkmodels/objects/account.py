@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -161,16 +161,6 @@ class PushSettings(
 
 
 @dataclasses.dataclass
-class UserSettings(
-    ObjectBase,
-    UserMin,
-    UserSettingsXtr,
-):
-    photo_200: typing.Optional[str] = None
-    is_service_account: typing.Optional[bool] = None
-
-
-@dataclasses.dataclass
 class UserSettingsInterest(
     ObjectBase,
 ):
@@ -191,3 +181,13 @@ class UserSettingsInterests(
     music: typing.Optional[UserSettingsInterest] = None
     quotes: typing.Optional[UserSettingsInterest] = None
     tv: typing.Optional[UserSettingsInterest] = None
+
+
+@dataclasses.dataclass
+class UserSettings(
+    ObjectBase,
+    UserMin,
+    UserSettingsXtr,
+):
+    photo_200: typing.Optional[str] = None
+    is_service_account: typing.Optional[bool] = None

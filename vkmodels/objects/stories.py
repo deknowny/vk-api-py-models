@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -18,7 +18,6 @@ class ClickableSticker(
     ObjectBase,
 ):
     clickable_area: typing.List[ClickableArea]
-
     id: int
     type: str
     app: typing.Optional[AppMin] = None
@@ -54,7 +53,6 @@ class ClickableStickers(
     ObjectBase,
 ):
     clickable_stickers: typing.List[ClickableSticker]
-
     original_height: int
     original_width: int
 

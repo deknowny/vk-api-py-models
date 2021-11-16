@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 class CommentsFilters(str, enum.Enum):
@@ -20,15 +20,6 @@ class IgnoreItemType(str, enum.Enum):
     VIDEO = "video"
     PHOTO = "photo"
     AUDIO = "audio"
-
-
-@dataclasses.dataclass
-class ItemAudio(
-    ObjectBase,
-    ItemBase,
-):
-    audio: typing.Optional[ItemAudioAudio] = None
-    post_id: typing.Optional[int] = None
 
 
 @dataclasses.dataclass
@@ -155,31 +146,11 @@ class ItemHolidayRecommendationsBlockHeader(
 
 
 @dataclasses.dataclass
-class ItemPhoto(
-    ObjectBase,
-    CarouselBase,
-    ItemBase,
-):
-    photos: typing.Optional[ItemPhotoPhotos] = None
-    post_id: typing.Optional[int] = None
-
-
-@dataclasses.dataclass
 class ItemPhotoPhotos(
     ObjectBase,
 ):
     count: typing.Optional[int] = None
     items: typing.Optional[typing.List[NewsfeedPhoto]] = None
-
-
-@dataclasses.dataclass
-class ItemPhotoTag(
-    ObjectBase,
-    CarouselBase,
-    ItemBase,
-):
-    photo_tags: typing.Optional[ItemPhotoTagPhotoTags] = None
-    post_id: typing.Optional[int] = None
 
 
 @dataclasses.dataclass
@@ -232,30 +203,11 @@ class ItemTopic(
 
 
 @dataclasses.dataclass
-class ItemVideo(
-    ObjectBase,
-    CarouselBase,
-    ItemBase,
-):
-    video: typing.Optional[ItemVideoVideo] = None
-
-
-@dataclasses.dataclass
 class ItemVideoVideo(
     ObjectBase,
 ):
     count: typing.Optional[int] = None
     items: typing.Optional[typing.List[Video]] = None
-
-
-@dataclasses.dataclass
-class ItemWallpost(
-    ObjectBase,
-    CarouselBase,
-    ItemBase,
-    WallpostFull,
-):
-    feedback: typing.Optional[ItemWallpostFeedback] = None
 
 
 @dataclasses.dataclass
@@ -299,19 +251,6 @@ class ListFull(
     source_ids: typing.Optional[typing.List[int]] = None
 
 
-NewsfeedItem: typing.TypeAlias = typing.Union[
-    ItemWallpost,
-    ItemPhoto,
-    ItemPhotoTag,
-    ItemFriend,
-    ItemAudio,
-    ItemVideo,
-    ItemTopic,
-    ItemDigest,
-    ItemPromoButton,
-]
-
-
 class NewsfeedItemType(str, enum.Enum):
     POST = "post"
     PHOTO = "photo"
@@ -329,6 +268,44 @@ class NewsfeedItemType(str, enum.Enum):
 
 
 @dataclasses.dataclass
+class ItemAudio(
+    ObjectBase,
+    ItemBase,
+):
+    audio: typing.Optional[ItemAudioAudio] = None
+    post_id: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class ItemPhoto(
+    ObjectBase,
+    CarouselBase,
+    ItemBase,
+):
+    photos: typing.Optional[ItemPhotoPhotos] = None
+    post_id: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class ItemPhotoTag(
+    ObjectBase,
+    CarouselBase,
+    ItemBase,
+):
+    photo_tags: typing.Optional[ItemPhotoTagPhotoTags] = None
+    post_id: typing.Optional[int] = None
+
+
+@dataclasses.dataclass
+class ItemVideo(
+    ObjectBase,
+    CarouselBase,
+    ItemBase,
+):
+    video: typing.Optional[ItemVideoVideo] = None
+
+
+@dataclasses.dataclass
 class NewsfeedPhoto(
     ObjectBase,
     Photo,
@@ -336,3 +313,26 @@ class NewsfeedPhoto(
     likes: typing.Optional[Likes] = None
     comments: typing.Optional[ObjectCount] = None
     can_repost: typing.Optional[BoolInt] = None
+
+
+@dataclasses.dataclass
+class ItemWallpost(
+    ObjectBase,
+    CarouselBase,
+    ItemBase,
+    WallpostFull,
+):
+    feedback: typing.Optional[ItemWallpostFeedback] = None
+
+
+NewsfeedItem: typing.TypeAlias = typing.Union[
+    ItemWallpost,
+    ItemPhoto,
+    ItemPhotoTag,
+    ItemFriend,
+    ItemAudio,
+    ItemVideo,
+    ItemTopic,
+    ItemDigest,
+    ItemPromoButton,
+]

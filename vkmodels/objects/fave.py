@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -12,7 +12,6 @@ class Bookmark(
     added_date: int
     seen: bool
     tags: typing.List[Tag]
-
     type: BookmarkType
     link: typing.Optional[Link] = None
     post: typing.Optional[WallpostFull] = None
@@ -34,7 +33,6 @@ class Page(
 ):
     description: str
     tags: typing.List[Tag]
-
     type: PageType
     group: typing.Optional[GroupFull] = None
     updated_date: typing.Optional[int] = None

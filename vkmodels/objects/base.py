@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 class BoolInt(int, enum.Enum):
@@ -304,12 +304,6 @@ class Sex(int, enum.Enum):
     MALE = 2
 
 
-Sticker: typing.TypeAlias = typing.Union[
-    StickerOld,
-    StickerNew,
-]
-
-
 @dataclasses.dataclass
 class StickerAnimation(
     ObjectBase,
@@ -462,3 +456,9 @@ class UserId(
     ObjectBase,
 ):
     user_id: typing.Optional[int] = None
+
+
+Sticker: typing.TypeAlias = typing.Union[
+    StickerOld,
+    StickerNew,
+]

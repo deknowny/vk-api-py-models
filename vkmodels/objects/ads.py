@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 class AccessRole(str, enum.Enum):
@@ -532,5 +532,4 @@ class Users(
     ObjectBase,
 ):
     accesses: typing.List[Accesses]
-
     user_id: int

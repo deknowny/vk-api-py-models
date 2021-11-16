@@ -2,7 +2,7 @@ import dataclasses
 import enum
 import typing
 
-from vkmodels.bases import ObjectBase
+from vkmodels.bases.object import ObjectBase
 
 
 @dataclasses.dataclass
@@ -11,7 +11,6 @@ class EventAttach(
 ):
     button_text: str
     friends: typing.List[int]
-
     id: int
     is_favorite: bool
     text: str
